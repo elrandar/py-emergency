@@ -1,6 +1,32 @@
-import PySimpleGUI as sg
+import sys
 
-theme = 'Native'
+import PySimpleGUIWx as sg
+
+def simplegui():
+
+    # All the stuff inside your window.
+    layout = [
+        [sg.Text("File:"),     sg.Text('deed')],
+        [sg.Text("Title:"),    sg.InputText('Game of Thrones')],
+        [sg.Text("Year:"),     sg.InputText(2013)],
+        [sg.Text("Season:"),   sg.InputText(4), sg.Text("Episode:"), sg.InputText(1)],
+        [sg.Text("Category:"), sg.InputText('episode')],
+        [sg.Button('Ok'),      sg.Button('Cancel')]
+    ]
+    # Create the Window
+    window = sg.Window('LegendasTV API', layout)
+    # Event Loop to process "events" and get the "values" of the inputs
+    while True:
+        event, values = window.read()
+        # if user closes window or clicks cancel
+        if event == sg.WIN_CLOSED or event == 'Cancel':
+            break
+        print('You entered ', values)
+
+    window.close()
+
+theme = "Native"
+
 sg.LOOK_AND_FEEL_TABLE['Native'] = {
     'BACKGROUND': sg.COLOR_SYSTEM_DEFAULT,
     'TEXT':       sg.COLOR_SYSTEM_DEFAULT,
@@ -20,21 +46,6 @@ else:
     sg.wx.NO_BORDER = sg.wx.BORDER_NONE
     sg.DEFAULT_FONT = ("Helvetica", 10)
 sg.theme(theme)   # Add a touch of color
-# All the stuff inside your window.
-layout = [  [sg.Text('Some text on Row 1')],
-            [sg.Text('Enter something on Row 2'), sg.InputText()],
-            [sg.Button('Ok'), sg.Button('Cancel')],
-            [sg.Table([])] ]
 
-# Create the Window
-window = sg.Window('Window Title',
-                    layout,
-                    no_titlebar=True)
-# Event Loop to process "events" and get the "values" of the inputs
-while True:
-    event, values = window.read()
-    if event == sg.WIN_CLOSED or event == 'Cancel': # if user closes window or clicks cancel
-        break
-    print('You entered ', values[0])
-
-window.close()
+if __name__ == "__main__":
+    simplegui()
