@@ -1,14 +1,13 @@
 """Wrapper class for a playable audio file"""
 
-import os
-from subprocess import run
+import os, subprocess
+from subprocess import Popen
 from typing import Optional, Dict, Any
 
 from lib import params, utils
 
 try:
-    FNULL = open(os.devnull, 'w')
-    run(['ffmpeg',], stdout=FNULL, stderr=FNULL)
+    Popen(['ffmpeg',], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 except FileNotFoundError:
     os.environ['PATH'] = os.environ['PATH'] + ';' + os.path.abspath(os.path.join(params.BPATH, 'static'))
 

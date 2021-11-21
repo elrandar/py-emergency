@@ -68,6 +68,18 @@ if ($yN.StartsWith("y")) {
 log "info" "Installing requirements via pip ... "
 python -m pip install -r .\requirements-windows.txt
 
+if (Test-Path -Path ".\static\ffmpeg.exe") {
+    log "success" "An ffmpeg build is in the static directory"
+} else {
+    log "info" "Downloading the latest version of ffmpeg"
+    Invoke-WebRequest "https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-essentials.zip" -OutFile "${env:Temp}\ffmpeg.zip"
+    Expand-Archive -Force "${env:Temp}\ffmpeg.zip" ".\static\"
+    Move-Item ".\static\*\bin\ffmpeg.exe" ".\static\tmp.exe"
+    Move-Item ".\static\*\bin\*" ".\static\"
+    Remove-Item -Path ".\static\ffmpeg*" -Recurse
+    Move-Item ".\static\tmp.exe" ".\static\ffmpeg.exe"
+    log "success" "Successfully downloaded ffmpeg!"
+}
 
 log "warning" "If you want to use `"py-emergency`" with programs that use the microphone, you will have to install a loopback adapter."
 $yn = (Read-Host -Prompt "Do you want this setup script to download and install the https://vb-audio.com/Cable/ loopback device now?")

@@ -13,7 +13,7 @@ function log {
     Write-Host "$Msg"
 }
 
-log "success" 'Building "Figaro"'
+log "success" 'Building "py-emergency"'
 
 $OriginalPath = Get-Location
 Set-Location $PSScriptRoot
@@ -39,10 +39,10 @@ python -m pip install pyinstaller
 
 log "success" "Pyinstaller found/installed!"
 
-log "info" 'Building "figaro-cli" w. pyinstaller'
+log "info" 'Building "py-emergency" w. pyinstaller'
 
-pyinstaller --noconsole -i ".\media\figaro.ico" .\figaro.py
+pyinstaller -w -y .\py-emergency.py
 
-log "success" 'Finished building "figaro-cli"'
+log "success" 'Finished building "py-emergency"'
 
 Set-Location $OriginalPath
