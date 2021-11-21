@@ -13,7 +13,7 @@ function log {
     Write-Host "$Msg"
 }
 
-log "success" 'Setting up "Figaro"'
+log "success" 'Setting up "py-emergency"'
 
 $OriginalPath = Get-Location
 Set-Location $PSScriptRoot
@@ -33,21 +33,6 @@ if (-Not $?) {
     exit 1
 }
 log "success" "Functioning pip3 setup detected!"
-
-log "info" "Checking node/npm installation ... "
-node --version >$null 2>$null
-if (-Not $?) {
-    log "error" "No node setup could be found!"
-    exit 1
-}
-log "success" "Functional node installation found!"
-
-npm --version >$null 2>$null
-if (-Not $?) {
-    log "error" "No npm installation found!"
-    exit 1
-}
-log "success" "Functioning npm setup found!"
 
 log "info" "Installing python requirements ... "
 $ExtPyVersion = $PyVersion;
@@ -83,19 +68,8 @@ if ($yN.StartsWith("y")) {
 log "info" "Installing requirements via pip ... "
 python -m pip install -r .\requirements-windows.txt
 
-log "info" "Installing node requirements (electron part) ... "
-Set-Location lib/gui/
-npm i
 
-log "info" "Installing node requirements (web/gatsby part) ... "
-Set-Location web/
-npm i
-
-log "info" "Building the GUI (web/gatsby part)"
-npm run build
-Set-Location ..\..\..\
-
-log "warning" "If you want to use `"Figaro`" with programs such as Discord, you will have to install a loopback adapter."
+log "warning" "If you want to use `"py-emergency`" with programs that use the microphone, you will have to install a loopback adapter."
 $yn = (Read-Host -Prompt "Do you want this setup script to download and install the https://vb-audio.com/Cable/ loopback device now?")
 if ($yN.StartsWith("y")) {
     Invoke-WebRequest "https://download.vb-audio.com/Download_CABLE/VBCABLE_Driver_Pack43.zip" -OutFile "${env:Temp}\VBCABLE_Driver_Pack.zip"
@@ -104,9 +78,6 @@ if ($yN.StartsWith("y")) {
     log "Warning" "It is recommended you restart your PC after this setup script has finished!" 
 }
 
-log "success" 'Finished setting up "Figaro"'
-
-log "info" "If you want to use the GUI, just run"
-log "info" ".\gui.ps1"
+log "success" 'Finished setting up "py-emergency"'
 
 Set-Location $OriginalPath

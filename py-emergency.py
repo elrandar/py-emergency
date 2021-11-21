@@ -28,7 +28,7 @@ def set_theme():
     sg.theme(theme)   # Add a touch of color
 
 def get_file_list():
-    return glob.glob('*.mp3')
+    return glob.glob('audio_files\*.mp3')
 
 
 def simplegui(inputs, outputs):
