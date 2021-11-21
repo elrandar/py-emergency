@@ -37,10 +37,14 @@ def simplegui(inputs, outputs):
     files = get_file_list()
 
     tab_params_layout = [
-        [sg.Text('Input', size=(5, 1)), sg.Combo(values=inputs, size=(30, 1), default_value=inputs[0], key='input')],
-        [sg.Text('Output', size=(5, 1)), sg.Combo(values=outputs, size=(30, 1), default_value=outputs[0], key='output')],
-        [sg.Button('Start Loopback')],
-        [sg.Text('File to play'), sg.Combo(values=files, size=(25, 1), default_value=files[0] if len(files) != 0 else "", key = 'file')]
+        [sg.Text('Input', size=(5, 1)), sg.Combo(values=inputs, size=(30, 1), default_value=inputs[0], key='input', readonly=True)],
+        [sg.Text('Output', size=(5, 1)), sg.Combo(values=outputs, size=(30, 1), default_value=outputs[0], key='output', readonly=True)],
+        [sg.Button('Start Connection')],
+        [sg.Text('File to play'), sg.Combo(values=files, 
+                                           size=(25, 1),
+                                           default_value=files[0] if len(files) != 0 else "", key = 'file',
+                                           readonly=True)],
+        [sg.Button('Refresh Files', size=(35, 1))]
         ]
     tab_exec_layout = [
         [sg.Text('Volume level'), sg.Spin([i for i in range(1,11)], initial_value=1, size=(25, 1), key='volume')],
@@ -60,10 +64,16 @@ def simplegui(inputs, outputs):
         elif event == 'Send message':
             sound = [values['file'], str(values['volume'])]
             cmd.on_start_sound(None, sound, sound, None)
-        elif event == 'Start Loopback':
+        elif event == 'Start Connection':
             cmd.on_start_input(None, None, int(values['input'][:2]), None)
             cmd.on_start_output(None, None, int(values['output'][:2]), None)
             cmd.on_start(None, None, None)
+
+        elif event == 'Refresh Files':
+            files = get_file_list()
+            window['file'].update(values=files)
+            if files != []:
+                window['file'].update(value=files[0])
     window.close()
     cmd.on_exit(None, None)
 
