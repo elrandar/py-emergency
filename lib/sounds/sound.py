@@ -7,7 +7,9 @@ from typing import Optional, Dict, Any
 from lib import params, utils
 
 try:
-    Popen(['ffmpeg',], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+    # uncomment this if building and comment the other
+    # Popen(['ffmpeg',], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+    Popen(['ffmpeg',], stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 except FileNotFoundError:
     os.environ['PATH'] = os.environ['PATH'] + ';' + os.path.abspath(os.path.join(params.BPATH, 'static'))
 

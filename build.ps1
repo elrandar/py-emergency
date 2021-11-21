@@ -41,7 +41,7 @@ log "success" "Pyinstaller found/installed!"
 
 log "info" 'Building "py-emergency" w. pyinstaller'
 
-pyinstaller -w -y .\py-emergency.py
+pyinstaller -y .\py-emergency.py
 
 log "success" 'Finished building "py-emergency"'
 
